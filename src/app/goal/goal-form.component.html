@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="card mx-auto" style="max-width: 600px; padding: 20px;">
+    <h2 class="text-center mb-4">{{ isEdit ? 'Modifier' : 'Créer' }} un Goal</h2>
+
+    <!-- Titre -->
+    <div class="mb-3">
+      <label class="form-label fw-bold">Titre</label>
+      <input type="text" class="form-control" [(ngModel)]="goal.title" required minlength="3" />
+    </div>
+
+    <!-- Description -->
+    <div class="mb-3">
+      <label class="form-label fw-bold">Description</label>
+      <textarea class="form-control" [(ngModel)]="goal.description" required minlength="5"></textarea>
+    </div>
+
+
+
+    <hr />
+    <h5 class="text-primary">Nouvelle Catégorie associée</h5>
+
+    <!-- Libellé -->
+    <div class="mb-3">
+      <label class="form-label">Libellé</label>
+      <input type="text" class="form-control"
+             [(ngModel)]="newCategory.libelle"
+             (blur)="checkLibelleAndEstimate()"
+             required />
+    </div>
+
+    <!-- Affichage estimation -->
+    <div class="alert alert-info" *ngIf="showEstimate">
+      ✅ Moyenne estimée pour '{{ newCategory.libelle }}' : <strong>{{ estimatedDuration }} jours</strong>
+    </div>
+
+    <!-- Date de début -->
+    <div class="mb-3">
+      <label class="form-label fw-bold">Date de début</label>
+      <input type="date" class="form-control" [(ngModel)]="goal.startDate" />
+    </div>
+
+    <!-- Date de fin -->
+    <div class="mb-3">
+      <label class="form-label fw-bold">Date de fin</label>
+      <input type="date" class="form-control" [(ngModel)]="goal.endDate"  />
+    </div>
+    <!-- Durée -->
+    <div class="mb-3">
+      <label class="form-label">Durée</label>
+      <input type="text" class="form-control" [(ngModel)]="newCategory.description" />
+    </div>
+
+
+    <!-- Message d'erreur -->
+    <div class="alert alert-danger" *ngIf="serverError">
+      {{ serverError }}
+    </div>
+
+    <!-- Boutons -->
+    <div class="text-center mt-4">
+      <button type="button" class="btn btn-success me-3" (click)="saveGoal()">💾 Enregistrer</button>
+      <button type="button" class="btn btn-secondary" (click)="router.navigate(['/goals'])">❌ Annuler</button>
+    </div>
+  </div>
+</div>

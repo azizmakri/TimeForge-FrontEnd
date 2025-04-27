@@ -1,0 +1,82 @@
+<div class="container">
+  <div class="card">
+    <h2 class="text-center mb-4">{{ isEdit ? 'Update' : 'Create' }} a Project</h2>
+
+    <form #projectForm="ngForm" (ngSubmit)="saveProject(projectForm)" novalidate>
+      <!-- Champ titre -->
+      <div class="mb-3">
+        <label for="title" class="form-label fw-bold">Project Title</label>
+        <input
+          type="text"
+          id="title"
+          class="form-control"
+          [(ngModel)]="project.title"
+          name="title"
+          required
+          minlength="3"
+          placeholder="Enter project title"
+        />
+      </div>
+
+      <!-- Champ description -->
+      <div class="mb-3">
+        <label for="description" class="form-label fw-bold">Description</label>
+        <textarea
+          id="description"
+          class="form-control"
+          [(ngModel)]="project.description"
+          name="description"
+          placeholder="Enter project description"
+          required
+        ></textarea>
+      </div>
+
+      <!-- Champ catégorie -->
+      <div class="mb-3">
+        <label for="category" class="form-label fw-bold">Category</label>
+        <select id="category" class="form-control" [(ngModel)]="project.category" name="category" required>
+          <option value="SOFTWARE_DEVELOPMENT">SOFTWARE DEVELOPMENT</option>
+          <option value="MARKETING">MARKETING</option>
+          <option value="EDUCATION">EDUCATION</option>
+          <option value="RESEARCH">RESEARCH</option>
+          <option value="FINANCE">FINANCE</option>
+          <option value="DESIGN">DESIGN</option>
+          <option value="HEALTHCARE">HEALTHCARE</option>
+          <option value="CONSTRUCTION">CONSTRUCTION</option>
+          <option value="OTHER">OTHER</option>
+        </select>
+      </div>
+
+      <!-- Champ date de début -->
+      <div class="mb-3">
+        <label for="startDate" class="form-label fw-bold">Start Date</label>
+        <input
+          type="date"
+          id="startDate"
+          class="form-control"
+          [(ngModel)]="project.startDate"
+          name="startDate"
+          required
+        />
+      </div>
+
+      <!-- Champ date de fin -->
+      <div class="mb-3">
+        <label for="endDate" class="form-label fw-bold">End Date</label>
+        <input
+          type="date"
+          id="endDate"
+          class="form-control"
+          [(ngModel)]="project.endDate"
+          name="endDate"
+          [min]="project.startDate"
+          required
+        />
+      </div>
+
+      <!-- Boutons d'action -->
+      <button type="submit" class="btn btn-success" [disabled]="projectForm.invalid">💾 Save Project</button>
+      <button type="button" class="btn btn-secondary" (click)="router.navigate(['/projects'])">❌ Cancel</button>
+    </form>
+  </div>
+</div>

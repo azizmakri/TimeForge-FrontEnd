@@ -1,0 +1,49 @@
+<div class="email-container">
+  <h2>Send Email</h2>
+
+  <form [formGroup]="emailForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="recipientEmail">Recipient Email:</label>
+      <input
+        type="email"
+        id="recipientEmail"
+        formControlName="recipientEmail"
+        class="form-control"
+        placeholder="Enter recipient's email"
+        required
+      />
+      <div *ngIf="emailForm.controls['recipientEmail'].invalid && emailForm.controls['recipientEmail'].touched" class="error-message">
+        Please enter a valid email.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="subject">Subject:</label>
+      <input
+        type="text"
+        id="subject"
+        formControlName="subject"
+        class="form-control"
+        placeholder="Enter subject"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="messageBody">Message:</label>
+      <textarea
+        id="messageBody"
+        formControlName="messageBody"
+        class="form-control"
+        placeholder="Enter message body"
+        required
+      ></textarea>
+    </div>
+
+    <button type="submit" [disabled]="emailForm.invalid" class="btn btn-primary">Send Email</button>
+
+    <div *ngIf="message" class="message">
+      <p>{{ message }}</p>
+    </div>
+  </form>
+</div>

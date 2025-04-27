@@ -1,0 +1,58 @@
+<nav class="navbar">
+  <div class="nav-logo">
+    <a routerLink="/" class="logo">Time Forge App</a>
+  </div>
+  <ul class="nav-links">
+    <li><a routerLink="/dashboard" routerLinkActive="active">Home</a></li>
+    <li><a routerLink="/projects" routerLinkActive="active">column</a></li>
+    <li><a routerLink="/login" routerLinkActive="active">LogOut</a></li>
+  </ul>
+</nav>
+  <h2 class="text-center text-light mb-4">List of Column</h2>
+
+  <div class="export-buttons">
+    <button class="btn btn-success" (click)="exportToExcel()">📂 Export to Excel</button>
+    <input
+      type="text"
+      class="search-input"
+      [(ngModel)]="searchText"
+      placeholder="Search column..."
+    />
+    <button class="btn btn-danger" (click)="exportToPDF()">📝 Export to PDF</button>
+  </div>
+
+  <div class="d-flex justify-content-center mb-4">
+
+    <button class="btn btn-primary" [routerLink]="['/columns/add']">
+      ➕ Add column
+    </button>
+  </div>
+  
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Order</th>
+      
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let column of columns">
+          <td>{{ column.name }}</td>
+          <td>{{ column.order }}</td>
+        
+          <td data-label="Actions">
+            <div class="btn-container">
+              <button class="btn btn-warning btn-sm" [routerLink]="['/columns/edit', column._id]">
+                🖊️ Edit
+              </button>
+              <button class="btn btn-danger" (click)="deleteColumn(column._id)">
+                🗑️ Remove
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

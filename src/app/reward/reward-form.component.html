@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="card">
+    <h2 class="text-center mb-4">{{ isEdit ? 'Modifier' : 'Créer' }} une Reward</h2>
+
+    <form #rewardForm="ngForm" (ngSubmit)="onSubmit(rewardForm)" novalidate>
+
+      <!-- Type -->
+      <div class="mb-3">
+        <label for="type" class="form-label fw-bold">Type</label>
+        <input
+          type="text"
+          id="type"
+          class="form-control"
+          [(ngModel)]="reward.type"
+          name="type"
+          required
+          minlength="3"
+          maxlength="100"
+          #typeCtrl="ngModel"
+          [class.is-invalid]="typeCtrl.invalid && typeCtrl.touched"
+          placeholder="Entrez le type de reward"
+        />
+        <div class="invalid-feedback" *ngIf="typeCtrl.invalid && typeCtrl.touched">
+          <p *ngIf="typeCtrl.errors?.['required']">Le type est requis.</p>
+          <p *ngIf="typeCtrl.errors?.['minlength']">Au moins 3 caractères.</p>
+          <p *ngIf="typeCtrl.errors?.['maxlength']">Maximum 100 caractères.</p>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <label for="description" class="form-label fw-bold">Description</label>
+        <textarea
+          id="description"
+          class="form-control"
+          [(ngModel)]="reward.description"
+          name="description"
+          required
+          minlength="5"
+          maxlength="500"
+          #descCtrl="ngModel"
+          [class.is-invalid]="descCtrl.invalid && descCtrl.touched"
+          placeholder="Entrez la description"
+        ></textarea>
+        <div class="invalid-feedback" *ngIf="descCtrl.invalid && descCtrl.touched">
+          <p *ngIf="descCtrl.errors?.['required']">La description est requise.</p>
+          <p *ngIf="descCtrl.errors?.['minlength']">Au moins 5 caractères.</p>
+          <p *ngIf="descCtrl.errors?.['maxlength']">Maximum 500 caractères.</p>
+        </div>
+      </div>
+
+      <!-- Date -->
+      <div class="mb-3">
+        <label for="dateAwarded" class="form-label fw-bold">Date d'attribution</label>
+        <input
+          type="date"
+          id="dateAwarded"
+          class="form-control"
+          [(ngModel)]="reward.dateAwarded"
+          name="dateAwarded"
+          required
+          #dateCtrl="ngModel"
+          [class.is-invalid]="dateCtrl.invalid && dateCtrl.touched || dateInFuture"
+          (change)="checkDateFuture(reward.dateAwarded)"
+        />
+        <div class="invalid-feedback" *ngIf="dateCtrl.invalid && dateCtrl.touched">
+          <p *ngIf="dateCtrl.errors?.['required']">La date est requise.</p>
+        </div>
+        <div class="invalid-feedback" *ngIf="dateInFuture">
+          <p>La date ne peut pas être passée.</p> <!-- ✅ Correction du message -->
+        </div>
+      </div>
+
+      <!-- Boutons -->
+      <div class="btn-container">
+        <button type="submit" class="btn btn-success" [disabled]="rewardForm.invalid || dateInFuture">💾 Enregistrer</button>
+        <button type="button" class="btn btn-secondary" (click)="router.navigate(['/rewards'])">❌ Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>

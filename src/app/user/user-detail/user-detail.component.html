@@ -1,0 +1,86 @@
+<!-- user-detail.component.html -->
+<div class="container mt-4">
+  <div *ngIf="isLoading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p>Loading user details...</p>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div *ngIf="user && !isLoading" class="card">
+    <div class="card-header bg-primary text-white">
+      <h2>User Details</h2>
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <div class="mb-4">
+            <h5>Profile Photo</h5>
+            <div class="d-flex align-items-center">
+              <div class="me-3">
+                <img
+                  *ngIf="getPhotoUrl(); else placeholder"
+                  [src]="getPhotoUrl()"
+                  alt="Profile Photo"
+                  class="rounded-circle"
+                  style="width: 100px; height: 100px; object-fit: cover;"
+                >
+                <ng-template #placeholder>
+                  <div class="rounded-circle bg-light d-flex align-items-center justify-content-center"
+                       style="width: 100px; height: 100px;">
+                    <i class="bi bi-person fs-1 text-muted"></i>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+          <h5>Basic Information</h5>
+          <ul class="list-group">
+            <li class="list-group-item"><strong>Name:</strong> {{ user.name }}</li>
+            <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+            <li class="list-group-item">
+              <strong>Role:</strong>
+              <span class="badge"
+                    [ngClass]="{
+                      'bg-danger': user.role === 'ADMIN',
+                      'bg-warning': user.role === 'MANAGER',
+                      'bg-info': user.role === 'EMPLOYEE'
+                    }">
+                {{ getRoleName(user.role) }}
+              </span>
+            </li>
+            <li *ngIf="user.provider" class="list-group-item">
+              <strong>Login Provider:</strong> {{ user.provider }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-md-6">
+          <ul class="list-group">
+            <li *ngIf="user.workspaceId" class="list-group-item">
+              <strong>Workspace ID:</strong> {{ user.workspaceId }}
+            </li>
+            <li *ngIf="user.collaborationId" class="list-group-item">
+              <strong>Collaboration ID:</strong> {{ user.collaborationId }}
+            </li>
+            <li *ngIf="user.goalId" class="list-group-item">
+              <strong>Goal ID:</strong> {{ user.goalId }}
+            </li>
+            <li *ngIf="user.projectId" class="list-group-item">
+              <strong>Project ID:</strong> {{ user.projectId }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="text-end">
+
+        <button class="btn btn-primary" [routerLink]="['/users/edit', user.id]">Edit User</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,134 @@
+<div class="container mt-4">
+  <div *ngIf="isLoading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p>Loading user details...</p>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <div *ngIf="user && !isLoading" class="card">
+    <div class="card-header bg-primary text-white">
+      <h2>Edit User</h2>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <div class="mb-4">
+              <h5>Profile Photo</h5>
+              <div class="d-flex align-items-center">
+                <div class="me-3">
+                  <img
+                    *ngIf="getPhotoUrl(); else placeholder"
+                    [src]="getPhotoUrl()"
+                    alt="Profile Photo"
+                    class="rounded-circle"
+                    style="width: 100px; height: 100px; object-fit: cover;"
+                  >
+                  <ng-template #placeholder>
+                    <div class="rounded-circle bg-light d-flex align-items-center justify-content-center"
+                         style="width: 100px; height: 100px;">
+                      <i class="bi bi-person fs-1 text-muted"></i>
+                    </div>
+                  </ng-template>
+                </div>
+                <div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    (change)="onFileSelected($event)"
+                    class="form-control mb-2"
+                  >
+                  <div class="d-flex gap-2">
+                    <button
+                      class="btn btn-success btn-sm"
+                      (click)="uploadPhoto()"
+                      [disabled]="!selectedFile"
+                    >
+                      Upload
+                    </button>
+                    <button
+                      class="btn btn-danger btn-sm"
+                      (click)="deletePhoto()"
+                      [disabled]="!user.photoBase64"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                formControlName="name"
+                [class.is-invalid]="userForm.get('name')?.invalid && userForm.get('name')?.touched"
+              >
+              <div *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched" class="invalid-feedback">
+                Name is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                formControlName="email"
+                [class.is-invalid]="userForm.get('email')?.invalid && userForm.get('email')?.touched"
+              >
+              <div *ngIf="userForm.get('email')?.errors?.['required'] && userForm.get('email')?.touched" class="invalid-feedback">
+                Email is required
+              </div>
+              <div *ngIf="userForm.get('email')?.errors?.['email'] && userForm.get('email')?.touched" class="invalid-feedback">
+                Please enter a valid email
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="role" class="form-label">Role</label>
+              <select
+                class="form-select"
+                id="role"
+                formControlName="role"
+                [class.is-invalid]="userForm.get('role')?.invalid && userForm.get('role')?.touched"
+              >
+                <option value="">Select a role</option>
+                <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+              </select>
+              <div *ngIf="userForm.get('role')?.invalid && userForm.get('role')?.touched" class="invalid-feedback">
+                Role is required
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="text-end">
+          <button type="button" class="btn btn-secondary me-2" routerLink="/users">Cancel</button>
+          <button type="button"
+                  class="btn btn-warning me-2"
+                  (click)="resetPassword()"
+                  [disabled]="isLoading">
+            <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Reset Password
+          </button>
+
+          <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid || isLoading">
+            <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Update User
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

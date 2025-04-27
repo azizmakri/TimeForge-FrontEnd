@@ -1,0 +1,126 @@
+/* 🌟 Conteneur principal */
+.min-h-screen {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #b5c7e4, #1768f1); /* Dégradé de fond */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+}
+
+/* 🎯 Boîte de formulaire */
+.bg-white {
+  background-color: white;
+  border-radius: 1.5rem; /* Coins arrondis */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Ombre douce */
+  width: 100%;
+  max-width: 32rem; /* Largeur maximale */
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* 🎯 Titre */
+h2 {
+  font-size: 1.875rem; /* Taille du texte */
+  font-weight: 800; /* Poids de la police */
+  text-align: center;
+  color: #2d3748; /* Couleur sombre */
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Ombre du texte */
+}
+
+/* ✨ Champs du formulaire */
+.input-field {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  background-color: #f7fafc;
+  color: #2d3748;
+  transition: all 0.3s ease;
+}
+
+.input-field:focus {
+  border-color: #3182ce;
+  background-color: #edf2f7;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+/* ✨ Bouton "Prédire" */
+.submit-button {
+  background: linear-gradient(135deg, #3182ce, #2b6cb0); /* Dégradé bleu */
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.125rem;
+  font-weight: bold;
+  border-radius: 1.5rem;
+  width: 100%;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+/* 🌟 Résultat de la prédiction */
+.result {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  margin-top: 1rem;
+}
+
+.result.success {
+  background-color: #48bb78; /* Vert clair */
+  color: white;
+}
+
+.result.error {
+  background-color: #f56565; /* Rouge */
+  color: white;
+}
+
+.result h3 {
+  font-weight: bold;
+}
+
+/* 🎯 Message d'erreur et succès */
+.result p {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+/* 🎯 Mobile responsive */
+@media (max-width: 768px) {
+  .bg-white {
+    padding: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .submit-button {
+    font-size: 1rem;
+  }
+
+  .input-field {
+    font-size: 0.875rem;
+  }
+}
+.ML-animation {
+  display: block;
+  justify-content: center; /* Centre horizontalement */
+  align-items: center;     /* Centre verticalement */
+  /* Utilise toute la hauteur de la fenêtre */
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 110px;
+}

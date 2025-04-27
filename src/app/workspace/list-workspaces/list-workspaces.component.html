@@ -1,0 +1,81 @@
+<div class="container">
+  <h2>List Of Workspaces</h2>
+
+  <div class="Workspace-animation" *ngIf="showAnimation">
+    <dotlottie-player
+      src="https://lottie.host/ba6c24ab-b02d-4832-9a6e-09795ed363ac/NP56wVv0us.lottie"
+      background="transparent"
+      speed="2"
+      loop
+      autoplay
+      style="width: 80%; max-width: 600px; height: auto;">
+    </dotlottie-player>
+  </div>
+
+  <div class="export-buttons">
+    <button class="btn btn-success" (click)="exportToExcel()">📂 Export to Excel</button>
+    <input
+      type="text"
+      class="search-input"
+      [(ngModel)]="searchText"
+      placeholder="Search Workspaces..."
+    />
+    <button class="btn btn-danger" (click)="exportToPDF()">📝 Export to PDF</button>
+  </div>
+
+  <button class="btn btn-primary" (click)="router.navigate(['workspaces/add'])">
+    ➕ Add a Workspace
+  </button>
+
+  <div *ngIf="filteredWorkspaces().length > 0; else noData">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let workspace of filteredWorkspaces() | paginate: {
+                itemsPerPage: itemsPerPage,
+                currentPage: page,
+                totalItems: filteredWorkspaces().length
+              }">
+          <td data-label="Nom">{{ workspace.workspaceName }}</td>
+          <td data-label="Description">{{ workspace.workspaceDescription }}</td>
+          <td>
+            <div class="btn-container">
+              <button class="btn btn-warning" (click)="router.navigate(['/workspaces/edit', workspace.id])">
+                ✏️ Update
+              </button>
+              <button class="btn btn-danger" (click)="deleteWorkspace(workspace.id)">
+                🗑️ Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination-container">
+      <pagination-controls
+        (pageChange)="page = $event"
+        previousLabel="Previous"
+        nextLabel="Next"
+        [responsive]="true"
+        [maxSize]="5"
+        class="my-pagination">
+      </pagination-controls>
+    </div>
+  </div>
+
+  <ng-template #noData>
+    <div class="alert alert-warning text-center">
+      Aucun espace de travail trouvé.
+    </div>
+  </ng-template>
+</div>

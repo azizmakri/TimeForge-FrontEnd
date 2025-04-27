@@ -1,0 +1,17 @@
+<div class="chat-container">
+  <div class="chat-header">
+    {{collaboration?.title}}
+  </div>
+
+  <div class="chat-body">
+    <div *ngFor="let msg of messages" class="message" [ngClass]="msg.type">
+      <div class="sender-name">{{ msg.sender }}</div>
+      <div class="text">{{ msg.text }}</div>
+    </div>
+  </div>
+
+  <div class="chat-footer">
+    <input [(ngModel)]="newMessageContent" type="text" placeholder="Type a message" />
+    <button (click)="sendMessage()">➤</button>
+  </div>
+</div>

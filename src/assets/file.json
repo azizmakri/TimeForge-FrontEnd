@@ -1,0 +1,10 @@
+
+{
+  "predictionApiUrl": "http://localhost:5000/predict",
+  "features": [
+    "AI-powered recruitment",
+    "Skills-based hiring",
+    "Continuous feedback systems"
+  ]
+}
+

@@ -1,0 +1,200 @@
+.dashboard-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+  .dashboard-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #2c3e50;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    position: relative;
+    padding-bottom: 1rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 4px;
+      background: linear-gradient(90deg, #3498db, #9b59b6);
+      border-radius: 2px;
+    }
+  }
+
+  .totals-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .dashboard-total {
+      background: white;
+      padding: 1.5rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      font-size: 1.2rem;
+      color: #34495e;
+      flex: 1;
+      min-width: 200px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      strong {
+        color: #3498db;
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+      }
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+      }
+    }
+  }
+
+  .chart-grid {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+
+    .chart-section {
+      flex: 1;
+      min-width: 300px;
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #f1f1f1;
+        text-align: center;
+      }
+
+      .chart-card {
+        background: #f9fafc;
+        border-radius: 12px;
+        padding: 1.2rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        .chart-title {
+          font-size: 1.1rem;
+          color: #3498db;
+          margin-bottom: 1rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        canvas {
+          width: 100% !important;
+          height: auto !important;
+          flex: 1;
+          min-height: 200px;
+        }
+      }
+    }
+  }
+}
+
+// Animation pour les cartes
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chart-section {
+  animation: fadeIn 0.6s ease forwards;
+
+  &:nth-child(1) { animation-delay: 0.1s; }
+  &:nth-child(2) { animation-delay: 0.2s; }
+  &:nth-child(3) { animation-delay: 0.3s; }
+  &:nth-child(4) { animation-delay: 0.4s; }
+}
+
+// Responsive design
+@media (max-width: 1200px) {
+  .chart-grid {
+    .chart-section {
+      min-width: calc(50% - 1rem);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .chart-grid {
+    .chart-section {
+      min-width: 100%;
+    }
+  }
+
+  .totals-container {
+    flex-direction: column;
+
+    .dashboard-total {
+      width: 100%;
+    }
+  }
+}
+.dashboard-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 1800px; // Augmenté de 1400px à 1800px
+  margin: 0 auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ed 100%);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 95%; // Ajouté pour s'adapter mieux aux écrans larges
+
+  // ... (le reste du code reste inchangé)
+}
+
+// Ajustements complémentaires pour mieux utiliser l'espace
+.chart-grid {
+  gap: 1.5rem; // Réduit légèrement l'espace entre les sections
+
+  .chart-section {
+    min-width: 22%; // Au lieu de 300px pour mieux s'adapter
+    padding: 1.2rem; // Légère réduction du padding
+  }
+}
+
+// Ajustement des médias queries pour les grands écrans
+@media (min-width: 1600px) {
+  .dashboard-container {
+    max-width: 95%;
+    padding: 2rem 3rem;
+  }
+
+  .chart-grid {
+    gap: 2rem;
+
+    .chart-section {
+      min-width: 23%;
+    }
+  }
+}

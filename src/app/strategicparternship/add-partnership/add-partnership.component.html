@@ -1,0 +1,140 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Register New Strategic Partnership</h2>
+
+  <form (ngSubmit)="onSubmit()" *ngIf="!registrationResult; else resultSection">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="mb-3">
+          <label for="name" class="form-label">Partnership Name *</label>
+          <input type="text" class="form-control" id="name"
+                 [(ngModel)]="partnership.name" name="name" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea class="form-control" id="description" rows="3"
+                    [(ngModel)]="partnership.description" name="description"></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Participants *</label>
+
+          <!-- User Autocomplete Component -->
+          <app-user-autocomplete
+            (usersSelected)="onUsersSelected($event)"
+            [label]="'Search users'">
+          </app-user-autocomplete>
+
+          <!-- Selected Users Display -->
+          <div *ngIf="selectedUsers.length > 0" class="mt-3">
+            <h6>Selected Participants:</h6>
+            <div class="d-flex flex-wrap gap-2">
+              <div *ngFor="let user of selectedUsers" class="badge bg-primary d-flex align-items-center">
+                {{ user.name }}
+                <button type="button" class="btn-close btn-close-white ms-2"
+                        style="font-size: 0.5rem;"
+                        (click)="removeUser(user)"
+                        aria-label="Remove"></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Validation Message -->
+          <div *ngIf="formSubmitted && partnership.participants.length === 0" class="text-danger small mt-1">
+            At least one participant is required
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <button type="button" class="btn btn-outline-secondary" routerLink="/partnerships">
+        Back to List
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="isLoading || !partnership.name || partnership.participants.length === 0">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+        {{ isLoading ? 'Registering...' : 'Register Partnership' }}
+      </button>
+    </div>
+  </form>
+
+  <ng-template #resultSection>
+    <div class="card mb-4">
+      <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Registration Successful</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <h6>Partnership Details</h6>
+            <p><strong>Name:</strong> {{ registrationResult?.name }}</p>
+            <p><strong>Description:</strong> {{ registrationResult?.description }}</p>
+            <p><strong>Participants:</strong>
+              <span *ngIf="selectedUsers.length > 0">{{ getParticipantNames() }}</span>
+              <span *ngIf="selectedUsers.length === 0">None</span>
+            </p>
+          </div>
+          <div class="col-md-6">
+            <h6>Blockchain Registration</h6>
+            <p><strong>Status:</strong>
+              <span class="badge" [ngClass]="{
+
+                'bg-success': verificationResult === false,
+                'bg-warning': verificationResult === null
+              }">
+                {{ getVerificationStatus() }}
+              </span>
+            </p>
+            <p><strong>Blockchain Hash:</strong>
+              <code class="d-block text-truncate">{{ registrationResult?.blockchainHash }}</code>
+            </p>
+            <p><strong>Registered at:</strong>
+              {{ registrationResult?.blockchainTimestamp | date:'medium' }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between mb-3">
+      <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">
+        Register Another Partnership
+      </button>
+      <button type="button" class="btn btn-primary" routerLink="/partnerships">
+        View All Partnerships
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Blockchain Records</h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Block Hash</th>
+              <th>Previous Hash</th>
+              <th>Partnership ID</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let record of blockchainRecords">
+              <td>{{ record.timestamp | date:'short' }}</td>
+              <td><code>{{ record.hash | slice:0:12 }}...</code></td>
+              <td><code>{{ record.previousHash | slice:0:12 }}...</code></td>
+              <td>{{ record.partnershipId }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+    {{ errorMessage }}
+  </div>
+</div>

@@ -1,0 +1,82 @@
+/* 🌟 Style de la Navbar */
+.custom-navbar {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  padding: 15px 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 🌟 Logo */
+.logo {
+  height: 40px;
+  margin-right: 10px;
+}
+
+/* 🌟 Style des liens */
+.navbar-nav .nav-link {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #00d4ff;
+  transform: scale(1.1);
+}
+
+/* 🌟 Boutons */
+.nav-buttons .btn {
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 25px;
+  padding: 8px 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-buttons .btn-outline-light:hover {
+  background: #fff;
+  color: #007bff;
+}
+
+.nav-buttons .btn-primary {
+  background: linear-gradient(135deg, #00d4ff, #007bff);
+  border: none;
+}
+
+.nav-buttons .btn-primary:hover {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+}
+
+/* 🌟 Navbar Responsive */
+@media (max-width: 992px) {
+  .nav-buttons {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .nav-buttons .btn {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+.dashboard {
+  display: block;
+  justify-content: center; /* Centre horizontalement */
+  align-items: center;     /* Centre verticalement */
+  /* Utilise toute la hauteur de la fenêtre */
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 30%;
+}
+h2 {
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #007bff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}

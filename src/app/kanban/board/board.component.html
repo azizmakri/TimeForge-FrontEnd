@@ -1,0 +1,141 @@
+<div class="root">
+  <!-- Navbar -->
+  <div class="navbar has-background-dark">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <h1 class="app-name has-gradient-text">Kanban Board </h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kanban Board -->
+  <div class="board">
+    <!-- Board Name with Export Buttons -->
+    <div class="board-bar">
+      <p class="board-name">
+        {{ board.title }}
+        <button class="export-pdf-btn" (click)="exportBoardAsPDF()" aria-label="Export as PDF">
+          <i class="fas fa-file-pdf"></i> Export PDF
+        </button>
+        <button class="export-excel-btn" (click)="exportBoardAsExcel()" aria-label="Export as Excel">
+          <i class="fas fa-file-excel"></i> Export Excel
+        </button>
+        <button class="btn btn-success" (click)="openModal()">
+          <i class="fas fa-plus"></i> Add Column
+        </button>
+        
+      </p>
+    </div>
+    <div class="modal-overlay" *ngIf="isModalOpen">
+      <div class="modal-content">
+        <h4>Select Columns</h4>
+    
+        <select multiple [(ngModel)]="selectedColumns">
+          <option *ngFor="let col of availableColumns" [value]="col">{{ col.name }}</option>
+        </select>
+    
+        <div class="modal-actions">
+          <button class="btn btn-info" (click)="confirmSelection()">Confirm</button>
+          <button class="btn btn-danger" (click)="closeModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-overlayTask" *ngIf="isTaskOpen">
+      <div class="modal-contentTask">
+        <h4>Select Tasks</h4>
+    
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th><input type="checkbox" (change)="toggleAllTasks($event)" /></th>                <th>Name</th>
+                <th>Description</th>
+                <th>Created Date</th>
+                <th>Due Date</th>
+                <th>Priority</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let task of tasks">
+                <td>
+                  <input 
+                    type="checkbox" 
+                    [checked]="isTaskSelected(task._id)"
+                    (change)="toggleTaskSelection(task._id, $event)" 
+                  />
+                </td>
+                <td>{{ task.name }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.createdAt | date:'yyyy-MM-dd' }}</td>
+                <td>{{ task.dueDate | date:'yyyy-MM-dd' }}</td>
+                <td>{{ task.priority }}</td>
+                <td data-label="Actions">
+                  <div class="btn-container">
+                  
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    
+        <div class="modal-actions">
+          <button class="btn btn-info" (click)="confirmTaskSelection()">Confirm</button>
+          <button class="btn btn-danger" (click)="closeTaskModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <!-- Board Wrapper -->
+    <div class="board-wrapper">
+      <div class="board-columns" cdkDropListGroup>
+        <!-- Iterate over columns -->
+        <div
+          *ngFor="let column of board.columns; let i = index"
+          class="column"
+          cdkDropList
+          [cdkDropListData]="column.tasks"
+          (cdkDropListDropped)="drop($event)"
+          [ngStyle]="{
+            'background-color': getColumnColor(i),
+            'color': getTitleColor(i),
+            'font-size': '12px'
+          }"
+        >
+          <!-- Column Title -->
+          <h3>{{ column.name }}</h3>
+
+          <!-- Tasks -->
+          <div *ngFor="let task of column.tasks; let taskIndex = index" class="task-container" cdkDrag>
+            <div class="task">
+              <input type="text" [(ngModel)]="task.name" placeholder="Task name" disabled="true" />
+              <button class="remove-task-btn" (click)="removeTask(i, taskIndex)" aria-label="Remove task">
+                <i class="fas fa-trash-alt"></i> Remove Task
+              </button>
+              <button (click)="onViewTask(task)">
+                <i class="fa fa-eye view-icon"></i>View Task
+              </button>
+             
+              
+            </div>
+          </div>
+
+          <!-- Add Task Button -->
+          <button class="add-task-btn" (click)="addTask(column)" aria-label="Add new task">
+            <i class="fas fa-plus-circle"></i> Add Task
+          </button>
+          <button class="delete-colone-btn" (click)="removeColumnFromBoard(column)">
+            <i class="fas fa-trash"></i> Delete Column
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-body-tertiary text-center">
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+      © 2025 Copyright: Time Forge
+    </div>
+  </footer>
+</div>

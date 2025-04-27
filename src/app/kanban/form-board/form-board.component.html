@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="card">
+      <h2 class="text-center mb-4">{{ isEdit ? 'Update' : 'Create' }} a board</h2>
+  
+      <form #boardForm="ngForm" (ngSubmit)="saveBoard()" novalidate>
+        <!-- Champ titre -->
+        <div class="mb-3">
+          <label for="title" class="form-label fw-bold">Board Title</label>
+          <input
+            type="text"
+            id="title"
+            class="form-control"
+            [(ngModel)]="board.title"
+            name="title"
+            required
+            minlength="3"
+            placeholder="Enter board title"
+          />
+        </div>
+  
+        <!-- Champ description -->
+        <div class="mb-3">
+          <label for="description" class="form-label fw-bold">Description</label>
+          <textarea
+            id="description"
+            class="form-control"
+            [(ngModel)]="board.description"
+            name="description"
+            placeholder="Enter board description"
+            required
+          ></textarea>
+        </div>
+
+        <!-- Boutons d'action -->
+        <button type="submit" class="btn btn-success" [disabled]="boardForm.invalid">💾 Save Board</button>
+        <button type="button" class="btn btn-secondary" (click)="router.navigate(['/boards'])">❌ Cancel</button>
+      </form>
+    </div>
+  </div>
+  

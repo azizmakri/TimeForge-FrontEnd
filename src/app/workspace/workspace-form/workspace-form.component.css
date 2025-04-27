@@ -1,0 +1,147 @@
+/* 🌟 Conteneur principal */
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  padding: 30px;
+}
+
+/* 📌 Formulaire plus compact */
+.card {
+  max-width: 600px;  /* 🔽 Réduction de la largeur */
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  padding: 40px; /* 🔽 Réduction du padding */
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* 🎯 Titre */
+h2 {
+  font-size: 30px; /* 🔽 Réduction de la taille */
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* ✏️ Labels */
+.form-label {
+  font-weight: 700;
+  color: white;
+  font-size: 18px;
+}
+
+/* ✨ Champs de texte plus petits */
+.form-control {
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  padding: 14px;  /* 🔽 Réduction du padding */
+  font-size: 18px; /* 🔽 Réduction de la taille du texte */
+  height: 55px; /* 🔽 Réduction de la hauteur */
+  width: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  font-size: 16px;
+}
+
+.form-control:focus {
+  border-color: #0056b3;
+  box-shadow: 0 0 12px rgba(0, 86, 179, 0.5);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* ✨ Zone description légèrement plus grande */
+textarea.form-control {
+  height: 140px; /* 🔽 Réduction de la hauteur */
+  resize: none;
+}
+
+/* 🎭 Boutons alignés et ajustés */
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* 🔽 Réduction de l’espace */
+}
+
+button {
+  padding: 14px; /* 🔽 Réduction du padding */
+  font-size: 18px; /* 🔽 Réduction de la taille */
+  font-weight: bold;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+  width: 105%;
+  height: 55px; /* 🔽 Réduction de la hauteur */
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #28a745, #1e7e34);
+  border: none;
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #1e7e34, #155d27);
+  transform: scale(1.05);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #6c757d, #495057);
+  border: none;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #495057, #343a40);
+  transform: scale(1.05);
+}
+
+/* 🎭 Responsive */
+@media (max-width: 768px) {
+  .card {
+    width: 90%;
+    padding: 30px; /* 🔽 Réduction du padding */
+  }
+
+  h2 {
+    font-size: 26px;
+  }
+
+  .form-control {
+    padding: 12px;
+    font-size: 16px;
+    height: 50px; /* 🔽 Ajustement */
+  }
+
+  textarea.form-control {
+    height: 120px; /* 🔽 Ajustement */
+  }
+
+  button {
+    font-size: 16px;
+    padding: 12px;
+    height: 50px; /* 🔽 Ajustement */
+  }
+}
+
+/* 🎬 Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,79 @@
+<div class="container">
+  <h2>Liste des Goals</h2>
+
+  <div class="goal-animation" *ngIf="showAnimation">
+    <dotlottie-player
+      src="https://lottie.host/48d591e5-2814-4842-a3d2-ac91c5d874cc/k8PktloeAw.lottie"
+      background="transparent"
+      speed="2"
+      style="width: 575px; height: 575px"
+      loop
+      autoplay
+    ></dotlottie-player>
+  </div>
+
+  <div class="export-buttons">
+    <button class="btn btn-success" (click)="exportToExcel()">📂 Exporter Excel</button>
+    <input
+      type="text"
+      class="search-input"
+      [(ngModel)]="searchText"
+      placeholder="🔍 Rechercher un goal..."
+    />
+    <button class="btn btn-danger" (click)="exportToPDF()">📝 Exporter PDF</button>
+  </div>
+
+  <button class="btn btn-primary" [routerLink]="['/goals/add']">
+    ➕ Ajouter un Goal
+  </button>
+
+  <table class="table" *ngIf="filteredGoals().length > 0; else noData">
+    <thead>
+    <tr>
+      <th>Titre</th>
+      <th>Description</th>
+      <th>Date début</th>
+      <th>Date fin</th>
+      <th>type de Libelle</th> <!-- Ajout du libellé -->
+      <th> durée </th> <!-- Ajout de la description -->
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let goal of filteredGoals() | paginate: { itemsPerPage: itemsPerPage, currentPage: page, totalItems: filteredGoals().length }">
+      <td>{{ goal.title }}</td>
+      <td>{{ goal.description }}</td>
+      <td>{{ goal.startDate | date: 'yyyy-MM-dd' }}</td>
+      <td>{{ goal.endDate | date: 'yyyy-MM-dd' }}</td>
+
+      <!-- Affichage du libellé et description de la catégorie -->
+      <td *ngFor="let category of goal.categories">{{ category.libelle }}</td>
+      <td *ngFor="let category of goal.categories">{{ category.description }}</td>
+
+      <td>
+        <div class="btn-container">
+          <button class="btn btn-warning btn-sm" [routerLink]="['/goals/edit', goal.goal_id]">✏️ Modifier</button>
+          <button class="btn btn-danger" (click)="deleteGoal(goal.goal_id)">🗑️ Supprimer</button>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination-container">
+    <pagination-controls
+      (pageChange)="page = $event"
+      previousLabel="Précédent"
+      nextLabel="Suivant"
+      [responsive]="true"
+      [maxSize]="5"
+      class="my-pagination">
+    </pagination-controls>
+  </div>
+
+  <ng-template #noData>
+    <div class="alert alert-warning text-center">
+      Aucun goal trouvé.
+    </div>
+  </ng-template>
+</div>

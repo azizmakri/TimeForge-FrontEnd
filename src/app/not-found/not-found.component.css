@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+.not-found-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: radial-gradient(circle at center, #1a2a6c, #76d9dc, #3c99f1);
+  color: white;
+  font-family: 'Orbitron', sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Glowing Stars */
+.not-found-container::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url('https://i.gifer.com/ZZ5H.gif') center/cover no-repeat;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.not-found-content {
+  position: relative;
+  z-index: 2;
+  padding: 2rem;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.error-code {
+  font-size: 10rem;
+  font-weight: 700;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+  animation: pulse 1.5s infinite alternate;
+}
+
+.error-message {
+  font-size: 2.5rem;
+  font-weight: 400;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+}
+
+.error-description {
+  font-size: 1.5rem;
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Glowing Button */
+.btn-glow {
+  display: inline-block;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(135deg, #c8c2c0, #2496dd);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 0 15px rgb(0, 139, 252);
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-glow:hover {
+  background: linear-gradient(135deg, #2481dd, #d1cfce);
+  box-shadow: 0 0 25px rgb(35, 124, 156);
+  transform: scale(1.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  from {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+  }
+  to {
+    text-shadow: 0 0 35px rgba(255, 255, 255, 1);
+  }
+}

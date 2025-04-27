@@ -1,0 +1,72 @@
+<div class="container my-5">
+  <h2 class="text-center fw-bold text-primary">🚀 Strategic Partnerships</h2>
+
+  <!-- Form to Add a Strategic Partnership -->
+  <div class="card shadow-lg border-0 rounded-4 p-4 mb-5">
+    <h4 class="text-center text-secondary mb-4">➕ Add a New Partnership</h4>
+    <form [formGroup]="partnershipForm" (ngSubmit)="addPartnership()">
+
+      <!-- Partner Name -->
+      <div class="mb-3">
+        <label for="partnername" class="form-label fw-semibold">🌟 Partner Name</label>
+        <input id="partnername" type="text" formControlName="partnername" class="form-control border-primary shadow-sm" placeholder="Enter partner name">
+        <div *ngIf="partnershipForm.controls['partnername'].invalid && partnershipForm.controls['partnername'].touched" class="text-danger small">
+          ⚠️ Partner name is required.
+        </div>
+      </div>
+
+      <!-- Partnership Type -->
+      <div class="mb-3">
+        <label for="partnershipType" class="form-label fw-semibold">🏆 Partnership Type</label>
+        <input id="partnershipType" type="text" formControlName="partnershipType" class="form-control border-primary shadow-sm" placeholder="Enter partnership type">
+        <div *ngIf="partnershipForm.controls['partnershipType'].invalid && partnershipForm.controls['partnershipType'].touched" class="text-danger small">
+          ⚠️ Partnership type is required.
+        </div>
+      </div>
+
+      <!-- Offers -->
+      <div class="mb-3">
+        <label for="offers" class="form-label fw-semibold">🎁 Offers</label>
+        <input id="offers" type="text" formControlName="offers" class="form-control border-primary shadow-sm" placeholder="Enter offers (comma separated)">
+        <div *ngIf="partnershipForm.controls['offers'].invalid && partnershipForm.controls['offers'].touched" class="text-danger small">
+          ⚠️ At least one offer is required.
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-success w-100 py-2 fw-semibold shadow-sm d-flex align-items-center justify-content-center gap-2" [disabled]="partnershipForm.invalid">
+        <i class="fas fa-plus"></i> Add Partnership
+      </button>
+
+    </form>
+  </div>
+
+  <!-- Table to Display Strategic Partnerships -->
+  <div class="card shadow-lg border-0 rounded-4 p-4">
+    <h4 class="text-center text-secondary mb-4">📜 Existing Partnerships</h4>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle text-center">
+        <thead class="table-dark">
+        <tr>
+          <th>🔹 Name</th>
+          <th>🏷️ Type</th>
+          <th>🎁 Offers</th>
+          <th>⚙️ Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let partnership of partnerships" class="align-middle">
+          <td class="fw-semibold">{{ partnership.partnername }}</td>
+          <td class="text-primary">{{ partnership.partnershipType }}</td>
+          <td class="text-muted">{{ partnership.offers?.join(', ') }}</td>
+          <td>
+            <button (click)="deletePartnership(partnership.id)" class="btn btn-outline-danger btn-sm rounded-3 shadow-sm d-flex align-items-center gap-1">
+              <i class="fas fa-trash"></i> Delete
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

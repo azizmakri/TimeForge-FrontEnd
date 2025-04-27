@@ -1,0 +1,103 @@
+<div class="container mt-4">
+  <div class="card p-4 shadow">
+    <h2 class="text-center mb-4">{{ isEdit ? 'Update' : 'Create' }} a Workflow</h2>
+
+    <!-- Message d’erreur -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Formulaire -->
+    <form (ngSubmit)="saveWorkflow()" #workflowForm="ngForm" novalidate>
+
+      <!-- Nom du workflow -->
+      <div class="mb-3">
+        <label for="workflowName" class="form-label fw-bold">Workflow Name</label>
+        <input
+          type="text"
+          id="workflowName"
+          class="form-control"
+          [(ngModel)]="workflow.workflowName"
+          name="workflowName"
+          required
+          minlength="3"
+          #workflowNameCtrl="ngModel"
+          [class.is-invalid]="workflowNameCtrl.invalid && workflowNameCtrl.touched"
+          placeholder="Enter workflow name"
+        />
+        <div class="invalid-feedback" *ngIf="workflowNameCtrl.invalid && workflowNameCtrl.touched">
+          <div *ngIf="workflowNameCtrl.errors?.['required']">Workflow name is required.</div>
+          <div *ngIf="workflowNameCtrl.errors?.['minlength']">Minimum 3 characters required.</div>
+        </div>
+      </div>
+
+      <!-- Étapes -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">Steps</label>
+        <div *ngFor="let step of workflow.steps; let i = index" class="input-group mb-2">
+          <input
+            type="text"
+            [(ngModel)]="workflow.steps[i]"
+            name="step{{ i }}"
+            class="form-control"
+            placeholder="Step name"
+          />
+          <button type="button" class="btn btn-outline-danger" (click)="removeStep(i)">❌</button>
+        </div>
+        <button type="button" class="btn btn-outline-secondary" (click)="addStep()">➕ Add Step</button>
+      </div>
+
+      <!-- Date de début -->
+      <div class="mb-3">
+        <label for="startDate" class="form-label fw-bold">Start Date</label>
+        <input
+          type="date"
+          id="startDate"
+          class="form-control"
+          [(ngModel)]="workflow.startDate"
+          name="startDate"
+          required
+        />
+      </div>
+
+      <!-- Date de fin -->
+      <div class="mb-3">
+        <label for="endDate" class="form-label fw-bold">End Date</label>
+        <input
+          type="date"
+          id="endDate"
+          class="form-control"
+          [(ngModel)]="workflow.endDate"
+          name="endDate"
+          required
+        />
+      </div>
+
+      <!-- Upload de fichier -->
+      <div class="mb-3">
+        <label for="file" class="form-label fw-bold">Upload File</label>
+        <input
+          type="file"
+          id="file"
+          class="form-control"
+          (change)="onFileSelected($event)"
+          required
+        />
+        <div *ngIf="file" class="form-text">Selected file: {{ file.name }}</div>
+        <div *ngIf="!file && workflowForm.submitted" class="text-danger">
+          File is required.
+        </div>
+      </div>
+
+      <!-- Boutons -->
+      <div class="d-flex gap-3 mt-4">
+        <button type="submit" class="btn btn-success" [disabled]="workflowForm.invalid || !file">
+          💾 {{ isEdit ? 'Update' : 'Save' }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="router.navigate(['/workflows'])">
+          ❌ Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

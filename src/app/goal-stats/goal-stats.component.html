@@ -1,0 +1,20 @@
+<div class="dashboard-container">
+  <h2 class="dashboard-title">🎯 Goals Dashboard</h2>
+
+  <p class="dashboard-total"><strong>Total Goals:</strong> {{ stats?.totalGoals }}</p>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <h5 class="chart-title">📅 Goals per Month</h5>
+      <canvas id="goalsPerMonthChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <h5 class="chart-title">📈 Average Categories per Month</h5>
+      <canvas id="avgCategoriesPerMonthChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <h5 class="chart-title">📊 Goals by Size</h5>
+      <canvas id="goalsBySizeChart"></canvas>
+    </div>
+  </div>
+</div>

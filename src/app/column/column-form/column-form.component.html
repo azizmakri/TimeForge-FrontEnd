@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="card p-4 shadow-sm">
+      <h2 class="text-center mb-4">{{ isEdit ? 'Update' : 'Create' }} a Column</h2>
+  
+      <form #columnForm="ngForm" (ngSubmit)="saveColumn(columnForm)" novalidate>
+        <!-- Champ nom -->
+        <div class="mb-3">
+          <label for="name" class="form-label fw-bold">Column Name</label>
+          <input
+            type="text"
+            id="name"
+            class="form-control"
+            [(ngModel)]="column.name"
+            name="name"
+            required
+            minlength="3"
+            placeholder="Enter column name"
+          />
+        </div>
+  
+        <!-- Champ ordre -->
+        <div class="mb-3">
+          <label for="order" class="form-label fw-bold">Order</label>
+          <input
+            type="number"
+            id="order"
+            class="form-control"
+            [(ngModel)]="column.order"
+            name="order"
+            required
+            min="0"
+            placeholder="Enter column order"
+          />
+        </div>
+  
+        <!-- Boutons -->
+        <button type="submit" class="btn btn-success me-2" [disabled]="columnForm.invalid">💾 Save Column</button>
+        <button type="button" class="btn btn-secondary" (click)="router.navigate(['/columns'])">❌ Cancel</button>
+      </form>
+    </div>
+  </div>
+  

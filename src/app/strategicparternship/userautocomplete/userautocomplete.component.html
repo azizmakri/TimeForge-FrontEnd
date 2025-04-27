@@ -1,0 +1,40 @@
+<mat-form-field style="width: 100%;" class="example-chip-list">
+  <mat-label>{{label}}</mat-label>
+  <mat-chip-grid #chipGrid aria-label="Participants selection">
+    <mat-chip-row *ngFor="let user of selectedUsers" (removed)="removeUser(user)">
+      <div class="user-chip">
+        <img [src]="getUserPhotoUrl(user)"
+             alt="{{user.name}}"
+             class="user-photo-chip"
+             (error)="handleImageError($event)">
+        {{user.name}}
+      </div>
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip-row>
+  </mat-chip-grid>
+  <input
+    matInput
+    [formControl]="searchControl"
+    [matAutocomplete]="auto"
+    [matChipInputFor]="chipGrid"
+    [matChipInputSeparatorKeyCodes]="[13, 188]"
+    (matChipInputTokenEnd)="add($event)"
+    placeholder="Search users..."
+  />
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+    <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
+      <div class="user-option">
+        <img [src]="getUserPhotoUrl(user)"
+             alt="{{user.name}}"
+             class="user-photo-option"
+             (error)="handleImageError($event)">
+        <div class="user-info">
+          <span class="user-name">{{ user.name }}</span>
+          <span class="user-email">{{ user.email }}</span>
+        </div>
+      </div>
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

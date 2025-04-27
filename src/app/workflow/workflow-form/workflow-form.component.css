@@ -1,0 +1,204 @@
+/* 🌟 Conteneur principal */
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  padding: 30px;
+}
+
+/* 📌 Formulaire */
+.card {
+  max-width: 600px;
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  padding: 40px;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* 🎯 Titre */
+h2 {
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* ✏️ Labels */
+.form-label {
+  font-weight: 700;
+  color: white;
+  font-size: 18px;
+}
+
+/* ✨ Champs de texte */
+.form-control {
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 18px;
+  height: 55px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.form-control:focus {
+  border-color: #0056b3;
+  box-shadow: 0 0 12px rgba(0, 86, 179, 0.5);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* ✨ Étapes du workflow */
+.step-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+/* 🎭 Boutons */
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+button {
+  padding: 14px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+  height: 55px;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #28a745, #1e7e34);
+  border: none;
+  color: white;
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #1e7e34, #155d27);
+  transform: scale(1.05);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #6c757d, #495057);
+  border: none;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #495057, #343a40);
+  transform: scale(1.05);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #cfcccc, #a1a0a0);
+  border: none;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #c6bdbd, #d8cdcb);
+  transform: scale(1.05);
+}
+
+/* 🎭 Responsive */
+@media (max-width: 768px) {
+  .card {
+    width: 90%;
+    padding: 30px;
+  }
+
+  h2 {
+    font-size: 26px;
+  }
+
+  .form-control {
+    padding: 12px;
+    font-size: 16px;
+    height: 50px;
+  }
+
+  button {
+    font-size: 16px;
+    padding: 12px;
+    height: 50px;
+  }
+}
+
+/* 🎬 Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* 🌟 Conteneur principal */
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  padding: 30px;
+  overflow: hidden; /* Empêcher le dépassement */
+}
+
+/* 📌 Formulaire */
+.card {
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh; /* 🔥 Empêche la carte de grandir indéfiniment */
+  overflow-y: auto; /* 🔥 Active le scroll interne si nécessaire */
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  padding: 40px;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* 🎭 Style du scroll (pour une meilleure UX) */
+.card::-webkit-scrollbar {
+  width: 6px;
+}
+
+.card::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+}
+
+.card::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* 🎭 Responsive */
+@media (max-width: 768px) {
+  .card {
+    width: 90%;
+    max-height: 75vh; /* Ajustement pour mobiles */
+    padding: 30px;
+  }
+}

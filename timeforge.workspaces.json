@@ -1,0 +1,64 @@
+[{
+  "_id": {
+    "$oid": "67c46cb83b808130c5ff3a65"
+  },
+  "workspaceName": "HR Department - Human Resources",
+  "workspaceDescription": "Hire a new employee",
+  "_class": "tn.esprit.workspace_workflow.entity.Workspace"
+},
+{
+  "_id": {
+    "$oid": "67c46cce3b808130c5ff3a66"
+  },
+  "workspaceName": "IT Department - Support Desk",
+  "workspaceDescription": "Resolve a technical issue",
+  "_class": "tn.esprit.workspace_workflow.entity.Workspace"
+},
+{
+  "_id": {
+    "$oid": "67c46ce53b808130c5ff3a67"
+  },
+  "workspaceName": "R&D and Marketing",
+  "workspaceDescription": "Develop and launch a new product",
+  "_class": "tn.esprit.workspace_workflow.entity.Workspace"
+},
+{
+  "_id": {
+    "$oid": "67c46cfa3b808130c5ff3a68"
+  },
+  "workspaceName": "Sales Department - Commercial Team",
+  "workspaceDescription": "Manage a sales opportunity",
+  "_class": "tn.esprit.workspace_workflow.entity.Workspace"
+},
+{
+  "_id": {
+    "$oid": "67c46d283b808130c5ff3a69"
+  },
+  "workspaceName": "Finance & Accounting",
+  "workspaceDescription": "Process and pay invoices efficiently",
+  "_class": "tn.esprit.workspace_workflow.entity.Workspace"
+},
+{
+  "_id": {
+    "$oid": "67c46d563b808130c5ff3a6a"
+  },
+  "workspaceName": "Customer Support Department",
+  "workspaceDescription": "Gather customer feedback and improve service",
+  "_class": "tn.esprit.workspace_workflow.entity.Workspace"
+},
+{
+  "_id": {
+    "$oid": "67c46d723b808130c5ff3a6b"
+  },
+  "workspaceName": "IT Department - Development Team",
+  "workspaceDescription": "Deploy a software update or new system",
+  "_class": "tn.esprit.workspace_workflow.entity.Workspace"
+},
+{
+  "_id": {
+    "$oid": "67c470c53b808130c5ff3a6c"
+  },
+  "workspaceName": "Marketing Department",
+  "workspaceDescription": "Organize and execute a company event",
+  "_class": "tn.esprit.workspace_workflow.entity.Workspace"
+}]

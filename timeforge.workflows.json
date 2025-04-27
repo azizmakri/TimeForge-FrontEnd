@@ -1,0 +1,99 @@
+[{
+  "_id": "38d2adf8-6d89-4fc2-a6a7-ad6e03eb431c",
+  "workflowName": "Recruitment Workflow",
+  "steps": [
+    "Identify the need",
+    "Job posting",
+    "Application screening",
+    "Interviews & assessments ",
+    "Selection & job offer",
+    "Onboarding "
+  ],
+  "collaborators": [],
+  "_class": "tn.esprit.workspace_workflow.entity.Workflow"
+},
+{
+  "_id": "4dae5fce-3a5e-4817-ab2d-cd849fafaf52",
+  "workflowName": "IT Ticket Management Workflow",
+  "steps": [
+    "Ticket creation",
+    "Ticket classification",
+    "Assign to technician/team",
+    "Analysis & diagnosis",
+    "Resolution",
+    "Validation & ticket closure"
+  ],
+  "collaborators": [],
+  "_class": "tn.esprit.workspace_workflow.entity.Workflow"
+},
+{
+  "_id": "8b20f046-16b5-4b3a-970d-24da57d4a2d0",
+  "workflowName": "New Product Launch Workflow",
+  "steps": [
+    "Idea generation & market research",
+    "Product design & development",
+    "Validation & user testing",
+    " Marketing & communication strategy ",
+    "Production & launch",
+    "Post-launch monitoring & improvements"
+  ],
+  "collaborators": [],
+  "_class": "tn.esprit.workspace_workflow.entity.Workflow"
+},
+{
+  "_id": "047d4104-ab73-4d09-a634-8794a529b461",
+  "workflowName": "Sales Process Workflow",
+  "steps": [
+    "Lead generation",
+    "Initial contact",
+    "Presentation & demonstration",
+    "Negotiation & adjustments",
+    "Contract signing",
+    "Follow-up & customer retention"
+  ],
+  "collaborators": [],
+  "_class": "tn.esprit.workspace_workflow.entity.Workflow"
+},
+{
+  "_id": "cbeb7258-b2b3-4354-8f84-4f4439cb8572",
+  "workflowName": "Invoice Processing Workflow",
+  "steps": [
+    "Invoice reception",
+    "Internal approval ",
+    "Accounting entry",
+    "Payment processing",
+    "Archiving & reporting"
+  ],
+  "collaborators": [],
+  "_class": "tn.esprit.workspace_workflow.entity.Workflow"
+},
+{
+  "_id": "2192c503-25e1-4e91-a9e9-b5e85ada4ed4",
+  "workflowName": "Software Deployment Workflow",
+  "steps": [
+    " Plan deployment",
+    "Code review & testing",
+    "Staging environment",
+    "Deployment approval ",
+    " Production deployment ",
+    "Post-deployment monitoring"
+  ],
+  "collaborators": [],
+  "_class": "tn.esprit.workspace_workflow.entity.Workflow"
+},
+{
+  "_id": "3b4c88d1-5773-4d18-a75b-e0a446b0b4ae",
+  "workflowName": "Event Planning Workflow",
+  "steps": [
+    "Define event objectives",
+    "Budget planning",
+    "Venue selection & logistics",
+    "Event promotion",
+    "Speaker and guest coordination",
+    "Event execution",
+    "Post-event feedback & analysis",
+    "Follow-up with attendees"
+  ],
+  "collaborators": [],
+  "_class": "tn.esprit.workspace_workflow.entity.Workflow"
+}]

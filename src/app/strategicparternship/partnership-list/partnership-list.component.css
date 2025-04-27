@@ -1,0 +1,30 @@
+/* src/app/components/list-partnership/list-partnership.component.css */
+.table {
+  font-size: 0.9rem;
+}
+
+.table th {
+  font-weight: 500;
+  background-color: #f8f9fa;
+}
+
+.badge {
+  font-weight: normal;
+}
+
+.btn-group-sm .btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+.pagination {
+  margin-top: 20px;
+}
+
+.page-link {
+  cursor: pointer;
+}
+
+.alert {
+  margin-top: 20px;
+}

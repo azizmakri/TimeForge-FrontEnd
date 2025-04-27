@@ -1,0 +1,57 @@
+<div class="container">
+  <h2>Liste des Rewards</h2>
+
+  <div class="reward-animation" *ngIf="showAnimation">
+  <dotlottie-player
+    src="https://lottie.host/4edd9381-89d7-4a8d-8169-0314d44f146b/pRoiR1PLAE.lottie"
+    background="transparent"
+    speed="2"
+    style="width: 450px; height: 450px"
+    loop
+    autoplay
+  ></dotlottie-player>
+  </div>
+
+
+  <!-- Export + Recherche -->
+  <div class="export-buttons mb-3">
+    <button class="btn btn-success" (click)="exportToExcel()">📂 Export to Excel</button>
+    <input
+      type="text"
+      class="search-input"
+      [(ngModel)]="searchText"
+      placeholder="🔎 Rechercher une reward..."
+    />
+    <button class="btn btn-danger" (click)="exportToPDF()">📝 Export to PDF</button>
+  </div>
+
+  <!-- Ajouter -->
+  <button class="btn btn-primary" [routerLink]="['/rewards/add']">
+    ➕ Ajouter une Reward
+  </button>
+
+  <!-- Tableau -->
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Date d'attribution</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let reward of filteredRewards()">
+      <td>{{ reward.type }}</td>
+      <td>{{ reward.description }}</td>
+      <td>{{ reward.dateAwarded | date:'shortDate' }}</td>
+      <td>
+        <div class="btn-container">
+          <button class="btn btn-warning btn-sm" [routerLink]="['/rewards/edit', reward.id]">✏️ Modifier</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteReward(reward.id)">🗑️ Supprimer</button>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

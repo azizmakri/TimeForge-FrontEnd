@@ -1,0 +1,166 @@
+/* 🌟 Conteneur principal */
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #66ccff, #ffffff); /* Balayage du bleu ciel au blanc */
+  padding: 30px;
+  overflow: hidden;
+}
+
+/* 📌 Formulaire */
+.card {
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh; /* Empêche la carte de grandir indéfiniment */
+  overflow-y: auto; /* Active le scroll interne si nécessaire */
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.2); /* Fond légèrement transparent */
+  backdrop-filter: blur(12px);
+  padding: 40px;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* 🎯 Titre */
+h2 {
+  font-size: 30px;
+  font-weight: bold;
+  color: #0056b3; /* Bleu foncé pour le texte */
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* ✏️ Labels */
+.form-label {
+  font-weight: 700;
+  color: #0056b3; /* Bleu foncé */
+  font-size: 18px;
+}
+
+/* ✨ Champs de texte */
+.form-control {
+  border: 2px solid #66ccff; /* Bordure bleu ciel */
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 18px;
+  height: 55px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.3); /* Fond blanc semi-transparent */
+  color: #0056b3; /* Bleu foncé pour le texte */
+  text-align: center;
+  transition: 0.3s;
+}
+
+.form-control::placeholder {
+  color: rgba(0, 0, 0, 0.5); /* Couleur des placeholders plus sombres pour plus de contraste */
+}
+
+.form-control:focus {
+  border-color: #0056b3;
+  box-shadow: 0 0 12px rgba(0, 86, 179, 0.5);
+  background: rgba(255, 255, 255, 0.4); /* Légère brillance au focus */
+}
+
+/* 🎭 Boutons */
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+button {
+  padding: 14px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+  height: 55px;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #66ccff, #0056b3); /* Dégradé bleu ciel à bleu foncé */
+  border: none;
+  color: white;
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #0056b3, #66ccff);
+  transform: scale(1.05);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #99ccff, #66ccff); /* Douce transition entre bleus clairs */
+  border: none;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #66ccff, #99ccff);
+  transform: scale(1.05);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #ffcccc, #ff6666); /* Dégradé pour un bouton d'alerte */
+  border: none;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: linear-gradient(135deg, #ff6666, #ffcccc);
+  transform: scale(1.05);
+}
+
+/* 🎭 Style du scroll (pour une meilleure UX) */
+.card::-webkit-scrollbar {
+  width: 6px;
+}
+
+.card::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+}
+
+.card::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* 🎭 Responsive */
+@media (max-width: 768px) {
+  .card {
+    width: 90%;
+    max-height: 75vh;
+    padding: 30px;
+  }
+
+  h2 {
+    font-size: 26px;
+  }
+
+  .form-control {
+    padding: 12px;
+    font-size: 16px;
+    height: 50px;
+  }
+
+  button {
+    font-size: 16px;
+    padding: 12px;
+    height: 50px;
+  }
+}
+
+/* 🎬 Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

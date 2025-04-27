@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="text-center mb-4">{{ isEdit ? 'Update' : 'Create' }} a Workspace</h2>
+
+      <form #workspaceForm="ngForm" (ngSubmit)="saveWorkspace(workspaceForm)" novalidate>
+        <!-- Workspace Name -->
+        <div class="mb-3">
+          <label for="name" class="form-label fw-bold">Name</label>
+          <input
+            type="text"
+            id="name"
+            class="form-control"
+            [(ngModel)]="workspace.workspaceName"
+            name="name"
+            required
+            minlength="3"
+            #nameCtrl="ngModel"
+            [class.is-invalid]="nameCtrl.invalid && nameCtrl.touched"
+            placeholder="Enter workspace name"
+          />
+          <div class="invalid-feedback" *ngIf="nameCtrl.invalid && nameCtrl.touched">
+            <p *ngIf="nameCtrl.errors?.['required']">Workspace name is required.</p>
+            <p *ngIf="nameCtrl.errors?.['minlength']">Minimum 3 characters required.</p>
+          </div>
+        </div>
+
+        <!-- Workspace Description -->
+        <div class="mb-3">
+          <label for="description" class="form-label fw-bold">Description</label>
+          <textarea
+            id="description"
+            class="form-control"
+            [(ngModel)]="workspace.workspaceDescription"
+            name="description"
+            required
+            minlength="5"
+            #descCtrl="ngModel"
+            [class.is-invalid]="descCtrl.invalid && descCtrl.touched"
+            rows="3"
+            placeholder="Enter a brief description"
+          ></textarea>
+          <div class="invalid-feedback" *ngIf="descCtrl.invalid && descCtrl.touched">
+            <p *ngIf="descCtrl.errors?.['required']">Description is required.</p>
+            <p *ngIf="descCtrl.errors?.['minlength']">Minimum 5 characters required.</p>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-container">
+          <button type="submit" class="btn btn-success" [disabled]="workspaceForm.invalid">
+            💾 Save
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="router.navigate(['/workspaces'])">
+            ❌ Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

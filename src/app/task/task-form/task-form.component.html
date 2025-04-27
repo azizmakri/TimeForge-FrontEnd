@@ -1,0 +1,92 @@
+<div class="container">
+  <div class="card">
+    <h2 class="text-center mb-4">{{ isEdit ? 'Update' : 'Create' }} a Task</h2>
+
+    <form #projectForm="ngForm" (ngSubmit)="saveTask()" novalidate>
+      <!-- Champ titre -->
+      <div class="mb-3">
+        <label for="title" class="form-label fw-bold">Task Title</label>
+        <input
+          type="text"
+          id="title"
+          class="form-control"
+          [(ngModel)]="task.name"
+          name="title"
+          required
+          minlength="3"
+          #titleCtrl="ngModel"
+          [class.is-invalid]="titleCtrl.invalid && titleCtrl.touched"
+          placeholder="Enter project title"
+        />
+        <div class="invalid-feedback" *ngIf="titleCtrl.invalid && titleCtrl.touched">
+          <p *ngIf="titleCtrl.errors?.['required']">Task name is required.</p>
+          <p *ngIf="titleCtrl.errors?.['minlength']">Minimum 3 characters required.</p>
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="description" class="form-label fw-bold">Description</label>
+        <textarea
+          id="description"
+          class="form-control"
+          [(ngModel)]="task.description"
+          name="description"
+          placeholder="Enter task description"
+          required
+        ></textarea>
+      </div>
+  
+      <div class="mb-3">
+        <label for="priority" class="form-label fw-bold">Priority</label>
+        <select
+          id="priority"
+          class="form-control"
+          [(ngModel)]="task.priority"
+          name="priority"
+          required
+        >
+          <option value="LOW">LOW</option>
+          <option value="MEDIUM">MEDIUM</option>
+          <option value="HIGH">HIGH</option>
+        </select>
+      </div>  
+
+      <div class="mb-3">
+        <label for="createdAt" class="form-label fw-bold">Created Date</label>
+        <input
+          type="date"
+          id="createdAt"
+          class="form-control"
+          [(ngModel)]="task.createdAt"
+          name="createdAt"
+          required
+        />
+  
+      </div>
+  
+      <div class="mb-3">
+        <label for="dueDate" class="form-label fw-bold">Due Date</label>
+        <input
+          type="date"
+          id="dueDate"
+          class="form-control"
+          [(ngModel)]="task.dueDate"
+          name="dueDate"
+          [min]="task.createdAt"
+          required
+        />
+     
+      </div>
+  
+      <!-- Boutons -->
+      <div class="btn-container">
+        <button type="button" class="btn btn-success" (click)="saveTask()">💾 Save</button>
+      </div>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">
+        ❌ Cancel
+      </button>
+    </form>
+
+    </div>
+  </div>
+  
