@@ -10,6 +10,7 @@ import {PredictWorkflowComponent} from '../predict-workflow/predict-workflow.com
 import {CommonModule} from '@angular/common';
 import { ChatComponent } from '../chat/chat.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 
 // Ajouter CalendarUtils dans les providers
@@ -28,6 +29,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppComponent,
     CalendarComponent,
     NgxPaginationModule,
+    RouterModule,
     BrowserModule,
     FormsModule,
     CommonModule,

@@ -1,22 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Collaboration } from '../models/collaboration.model';
 import { CollaborationService } from '../collaboration/collaboration.service';
 import { ChatService } from './Service/chat.service';
 import { ChatMessage } from '../models/chatMessage.model';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User, UserService } from '../user/user.service';
 import { WebsocketService } from './Service/websocket.service';
 @Component({
   selector: 'app-chat',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,RouterModule],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
 export class ChatComponent implements OnInit{
-  private messagesSubscription: Subscription;
 
   Chats$: Observable<ChatMessage[]>;
   collabId: string | null = null;
@@ -34,41 +33,20 @@ export class ChatComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this.connectToWebSocket();
-    this.subscribeToMessages();
-    this.route.params.subscribe(params => {
-      this.collabId = params['id'];
-      const user = JSON.parse(localStorage.getItem('user')!);
-      this.userId = user?.id;
-      this.getCollabById(this.collabId!);
-  
+  this.route.params.subscribe(params => {
+    this.collabId = params['id'];
+    const user = JSON.parse(localStorage.getItem('user')!);
+    this.userId = user?.id;
+    this.getCollabById(this.collabId!);
 
-      
-      // Connect WebSocket for real-time
-      /*this.webSocketService.subscribeToGroup('/topic/680bb4e81cae884fd2b7112d', (message) => {
-        console.log('Received message', message.body);
-      });*/
+    // Connect WebSocket AFTER collabId and userId are available
+    this.webSocketService.connect(this.userId, this.collabId!, (message) => {
+      this.onWebSocketMessage(message);
     });
-  
-    this.getChatsByCollabId();
-  }
+  });
 
-
-  connectToWebSocket(): void {
-    this.webSocketService.connect(); // Connect and subscribe to the specific group chat
-  }
-
-  subscribeToMessages(): void {
-    this.messagesSubscription = this.webSocketService.messages.subscribe((chatMessage: ChatMessage) => {
-      this.messages.push(chatMessage); // Add incoming messages to the array
-      console.log('New message received:', chatMessage);
-    });
-  }
-
-  sendMessagee(content: string): void {
-    const senderId = 'userId123'; // Replace with the actual sender ID
-    this.webSocketService.sendMessage(content, this.collabId, senderId); // Send the message through WebSocket
-  }
+  this.getChatsByCollabId();
+}
   messages = [];
 
 
@@ -85,7 +63,18 @@ export class ChatComponent implements OnInit{
       console.log("user:",this.user)
     });
   }
-
+  onWebSocketMessage(message: any) {
+    console.log('New WebSocket message:', message);
+  
+    this.messages.push({
+      senderId: message.senderId,
+      sender: message.senderId === this.userId ? 'Me' : 'Other',
+      text: message.content,
+      type: message.senderId === this.userId ? 'sent' : 'received'
+    });
+  
+    // Later you can improve fetching "other" user's name if needed
+  }
 
   getChatsByCollabId(): void {
     if (this.collabId) {
@@ -143,13 +132,14 @@ export class ChatComponent implements OnInit{
       senderId: this.userId,
       groupChatId: this.collabId!
     };
+
     this.chatService.addChat(chatMessage, this.collabId!, this.userId).subscribe({
       next: (res) => {
         console.log('Message sent successfully:', res);
         // optionally add it to the messages array to update UI instantly
-        this.messages.push({ sender: 'Me', text: this.newMessageContent, type: 'sent' });
+        //this.messages.push({ sender: 'Me', text: this.newMessageContent, type: 'sent' });
+        this.webSocketService.sendMessage(chatMessage.content,this.collabId!,this.userId);
         this.newMessageContent = ''; // clear input
-        this.webSocketService.sendMessage(this.newMessageContent, this.collabId!, this.userId);
       },
       error: (err) => {
         console.error('Error sending message:', err);

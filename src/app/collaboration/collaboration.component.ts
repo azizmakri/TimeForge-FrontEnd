@@ -9,6 +9,7 @@ import { debounceTime, distinctUntilChanged, map, Observable } from 'rxjs';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-collaboration',
@@ -167,15 +168,42 @@ export class CollaborationComponent implements OnInit {
 
   // Delete a collaboration
   deleteCollaboration(collaborationId: string | undefined): void {
-    this.collaborationService.deleteCollaboration(collaborationId).subscribe(
-      () => {
-        console.log('Collaboration deleted successfully');
-        this.loadCollaborations(); // Refresh the list
-      },
-      (error) => {
-        console.error('Error deleting collaboration:', error);
+    if (!collaborationId) {
+      console.error('Invalid collaboration ID.');
+      return;
+    }
+  
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'This collaboration will be permanently deleted!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.collaborationService.deleteCollaboration(collaborationId).subscribe(
+          () => {
+            Swal.fire(
+              'Deleted!',
+              'Your collaboration has been deleted.',
+              'success'
+            );
+            this.loadCollaborations(); // Refresh the list
+          },
+          (error) => {
+            console.error('Error deleting collaboration:', error);
+            Swal.fire(
+              'Error!',
+              'Something went wrong while deleting.',
+              'error'
+            );
+          }
+        );
       }
-    );
+    });
   }
 
   // Reset the form
