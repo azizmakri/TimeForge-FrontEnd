@@ -40,7 +40,13 @@ body {
     border-radius: 8px;
     clear: both;
   }
-  
+  .message.system {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    background: none;
+    padding: 0;
+  }
   .sent {
     background: #e6f4ea;
     margin-left: auto;

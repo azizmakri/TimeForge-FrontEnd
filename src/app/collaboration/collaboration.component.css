@@ -99,7 +99,6 @@ input:focus, textarea:focus {
 
 button {
   margin-top: 15px;
-  background: #ff7eb3;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -110,7 +109,7 @@ button {
 }
 
 button:hover {
-  background: #ff5a92;
+  background: #ff5a5a;
 }
 
 .collaboration-list {

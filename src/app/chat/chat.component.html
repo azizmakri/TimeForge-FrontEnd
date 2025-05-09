@@ -1,13 +1,39 @@
+<form [formGroup]="myForm" (ngSubmit)="addUsersToChat()" style="width: 500px;" *ngIf="collaboration?.chatType === 'GROUP'"
+>
+  <div class="mb-3 d-flex align-items-end gap-2">
+    <div class="flex-grow-1">
+      <label for="userSelect" class="form-label">Membre</label>
+      <select class="form-select" formControlName="userId" id="userSelect">
+        <option value="" disabled>Select a member</option>
+        <option *ngFor="let membre of membres$ | async" [value]="membre.id">
+          {{ membre.name }}
+        </option>
+      </select>
+    </div>
+    <div>
+      <button type="submit" class="btn btn-secondary rounded-pill">
+        <i class="bi bi-plus-circle me-1"></i> Add
+      </button>
+    </div>
+  </div>
+</form>
+
+
 <div class="chat-container">
   <div class="chat-header">
     <button class="btn btn-light" [routerLink]="['/collaborations']" routerLinkActive="active">return</button>
     {{collaboration?.title}}
   </div>
 
-  <div class="chat-body">
+  <div class="chat-body" #chatBody>
     <div *ngFor="let msg of messages" class="message" [ngClass]="msg.type">
-      <div class="sender-name">{{ msg.sender }}</div>
-      <div class="text">{{ msg.text }}</div>
+      <div *ngIf="msg.type !== 'system'; else systemMessage">
+        <div class="sender-name">{{ msg.sender }}</div>
+        <div class="text">{{ msg.text }}</div>
+      </div>
+      <ng-template #systemMessage>
+        <div class="system-message">{{ msg.text }}</div>
+      </ng-template>
     </div>
   </div>
 

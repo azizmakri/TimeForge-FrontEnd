@@ -1,7 +1,7 @@
 import {Component, CUSTOM_ELEMENTS_SCHEMA, OnInit} from '@angular/core';
 import { CollaborationService } from './collaboration.service';
 import { Collaboration } from '../models/collaboration.model';
-import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AsyncPipe, DatePipe, NgForOf, NgIf} from '@angular/common';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import { User, UserService } from '../user/user.service';
@@ -10,6 +10,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import Swal from 'sweetalert2';
+import { first } from 'rxjs';
+
 
 @Component({
   selector: 'app-collaboration',
@@ -30,149 +32,175 @@ import Swal from 'sweetalert2';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CollaborationComponent implements OnInit {
-  collaborations$: Observable<Collaboration[]>;
-  membres$: Observable<User[]>;
-  filteredMembres$: Observable<User[]>;
+  collaborations$!: Observable<Collaboration[]>;
+  membres$!: Observable<User[]>;
+  filteredMembres$!: Observable<User[]>;
   selectedMembres: User[] = [];
-  collaboration: Collaboration;
-  submitted: boolean = true;
+  myForm!: FormGroup;
+  userId!: string;
+
   searchControl: FormControl = new FormControl();
+  showAnimation = true;
 
-  get selectedMembresNames(): string {
-    return this.selectedMembres.map(m => m.name).join(', ');
-  }
-  newCollaboration: Collaboration = {
-    id: '',
-    title: '',
-    userIds: [],
-//    messages: [],
-  };
-
-  constructor(private formBuilder: FormBuilder, private userServices: UserService,private collaborationService: CollaborationService,private router: Router) {
-    this.membres$ = new Observable<User[]>();
-    this.filteredMembres$ = new Observable<User[]>();
-  
-  }
-  showAnimation = true;  // To control if the animation is visible
+  constructor(
+    private formBuilder: FormBuilder,
+    private userServices: UserService,
+    private collaborationService: CollaborationService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.loadCollaborations();
-    // Hide the animation after 5 seconds and show the workflow content
-    setTimeout(() => {
-      this.showAnimation = false;
-    }, 6000);
+    // Step 1: Load and store userId
+    const userJSON = localStorage.getItem('user');
+    if (!userJSON) {
+      console.error('User not found in localStorage');
+      return;
+    }
 
+    try {
+      const user = JSON.parse(userJSON);
+      this.userId = user?.id;
+      if (!this.userId) throw new Error('Invalid user ID');
+    } catch (e) {
+      console.error('Failed to parse user ID from localStorage', e);
+      return;
+    }
 
+    // Step 2: Init form with current user ID in userIds
+    this.myForm = this.formBuilder.group({
+      title: ['', Validators.required],
+      userIds: [[this.userId], Validators.required]
+    });
 
-    this.membres$ = this.userServices.findAllUsers();
-    this.initForm();
+    // Step 3: Load and filter members
+    this.membres$ = this.userServices.findAllUsers().pipe(
+      map(users => users.filter(user => user.id !== this.userId))
+    );
+
+    // Step 4: Filtering logic with search
     this.searchControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged()
     ).subscribe(term => this.filterMemebres(term));
-    this.filterMemebres('');
-  }
 
-  get userId(): string | null {
-    const userJSON = localStorage.getItem('user');
-    if (userJSON) {
-      try {
-        return JSON.parse(userJSON)?.id ?? null;
-      } catch (e) {
-        console.error('Failed to parse user from localStorage', e);
-        return null;
-      }
-    }
-    return null;
+    this.filterMemebres('');
+    this.loadCollaborations();
+
+    // Hide animation after delay
+    setTimeout(() => {
+      this.showAnimation = false;
+    }, 6000);
   }
 
   filterMemebres(searchTerm: string): void {
     this.filteredMembres$ = this.membres$.pipe(
-      map(membres => {
-        const filtered = membres.filter(membre =>
-          (membre.name && membre.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      map(membres =>
+        membres.filter(membre =>
+          (membre.name?.toLowerCase().includes(searchTerm.toLowerCase())) ||
           this.selectedMembres.some(s => s.id === membre.id)
-        );
-        return filtered;
-      })
+        )
+      )
     );
-  }
-  myForm: any;
-
-  initForm() {
-    this.myForm = this.formBuilder.group({
-      title: ['', [Validators.required]],
-      userIds: [[]]
-    });
   }
 
   onMemberSelect(membre: User): void {
     if (!this.selectedMembres.some(m => m.id === membre.id)) {
       this.selectedMembres.push(membre);
     }
-  
-    // Update userIds in the model
-    this.newCollaboration.userIds = this.selectedMembres.map(m => m.id);
-  
+
+    // Update form with new userIds + always include yourself
+    const userIds = Array.from(new Set([this.userId, ...this.selectedMembres.map(m => m.id)]));
+    this.myForm.patchValue({ userIds });
+
     // Reset search
-    this.filterMemebres('');
     this.searchControl.setValue('');
+    this.filterMemebres('');
   }
 
-  // Load all collaborations
   loadCollaborations(): void {
-    const userId = this.userId;
-  
-    if (!userId) {
-      console.error('No user ID found in localStorage.');
-      return;
-    }
-  
-    this.collaborations$ = this.collaborationService.getCollaborationsByUser(userId);
+    this.collaborations$ = this.collaborationService.getCollaborationsByUser(this.userId);
   }
-  
 
   addCollab(): void {
-    this.submitted = true;
+    if (this.myForm.invalid) return;
   
-    if (this.myForm.valid) {
-      const collaboration: Collaboration = {
-        title: this.myForm.value.title,
-        userIds: this.myForm.value.userIds
-      };
+    const payload: Collaboration = {
+      title: this.myForm.value.title,
+      userIds: Array.from(new Set([this.userId, ...this.myForm.value.userIds]))
+    };
   
-      console.log('Sending collaboration:', collaboration);
+    this.collaborationService.addCollab(payload).subscribe(() => {
+      // Reset form
+      this.myForm.reset({ title: '', userIds: [this.userId] });
+      this.selectedMembres = [];
+      this.filterMemebres('');
+      this.loadCollaborations();
   
-      this.collaborationService.addCollab(collaboration).subscribe(
-        () => {
-          console.log('Collaboration created!');
-          this.myForm.reset();
-          this.selectedMembres = [];
-          this.filterMemebres('');
-          this.loadCollaborations();
-        },
-        (error) => {
-          console.error('Error creating collaboration:', error);
-        }
-      );
-    }
-  }
-  
-  getCollabById(id: string): void {
-    console.log('Collab ID:', id);
-    this.collaborationService.getCollabById(id).subscribe(collab => {
-      console.log("Returned collaboration:", collab);
-        this.router.navigate(['/chat', id.toString()]);
+      // ✅ Success alert
+      Swal.fire({
+        icon: 'success',
+        title: 'Collaboration Created!',
+        text: 'Your new collaboration has been successfully added.',
+        confirmButtonColor: '#3085d6'
+      });
+    }, error => {
+      console.error('Error creating collaboration:', error);
+      const errorMessage = error?.error?.message || 'Something went wrong while creating the collaboration.';
+      
+      // ❌ Error alert
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed to Create Collaboration',
+        text: errorMessage,
+        confirmButtonColor: '#d33'
+      });
     });
   }
 
-  // Delete a collaboration
-  deleteCollaboration(collaborationId: string | undefined): void {
-    if (!collaborationId) {
-      console.error('Invalid collaboration ID.');
+  addPrivateMEssage(memberId: string): void {
+    const userJSON = localStorage.getItem('user');
+    if (!userJSON) {
+      Swal.fire('Error', 'Current user not found', 'error');
       return;
     }
   
+    const currentUser = JSON.parse(userJSON);
+    const userId1 = currentUser.id;
+    const userName = currentUser.name;
+  
+    // Use first() to complete the observable after first emission
+    this.membres$.pipe(first()).subscribe(members => {
+      const member = members.find(m => m.id === memberId);
+      if (!member) {
+        Swal.fire('Error', 'Recipient not found', 'error');
+        return;
+      }
+  
+      const userId2 = member.id;
+      const title = `${userName}_${member.name}`;
+  
+      const payload = { userId1, userId2, title };
+  
+      this.collaborationService.privateMessage(payload).subscribe({
+        next: (chatId: string) => {this.getCollabById(chatId);},
+        error: error => {
+          console.error('Error creating private chat:', error);
+          const msg = error?.error?.message || 'Failed to create private chat.';
+          Swal.fire('Error', msg, 'error');
+        }
+      });
+    });
+  }
+
+  getCollabById(id: string): void {
+    this.collaborationService.getCollabById(id).subscribe(() => {
+      this.router.navigate(['/chat', id]);
+    });
+  }
+
+  deleteCollaboration(collaborationId: string | undefined): void {
+    if (!collaborationId) return;
+
     Swal.fire({
       title: 'Are you sure?',
       text: 'This collaboration will be permanently deleted!',
@@ -182,36 +210,16 @@ export class CollaborationComponent implements OnInit {
       cancelButtonColor: '#3085d6',
       confirmButtonText: 'Yes, delete it!',
       cancelButtonText: 'Cancel'
-    }).then((result) => {
+    }).then(result => {
       if (result.isConfirmed) {
-        this.collaborationService.deleteCollaboration(collaborationId).subscribe(
-          () => {
-            Swal.fire(
-              'Deleted!',
-              'Your collaboration has been deleted.',
-              'success'
-            );
-            this.loadCollaborations(); // Refresh the list
-          },
-          (error) => {
-            console.error('Error deleting collaboration:', error);
-            Swal.fire(
-              'Error!',
-              'Something went wrong while deleting.',
-              'error'
-            );
-          }
-        );
+        this.collaborationService.deleteCollaboration(collaborationId).subscribe(() => {
+          Swal.fire('Deleted!', 'Your collaboration has been deleted.', 'success');
+          this.loadCollaborations();
+        }, err => {
+          console.error('Error deleting:', err);
+          Swal.fire('Error!', 'Something went wrong.', 'error');
+        });
       }
     });
-  }
-
-  // Reset the form
-  resetForm(): void {
-    this.newCollaboration = {
-      title: '',
-      userIds: [],
-//      messages: [],
-    };
   }
 }

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Collaboration } from '../models/collaboration.model';
+import { Collaboration, PrivateMessage } from '../models/collaboration.model';
 import {Message} from 'primeng/message';
 import { ChatMessage } from '../models/chatMessage.model';
+import { NotificationModel } from '../models/notification.model';
+import { User } from '../user/user.service';
 
 
 @Injectable({
@@ -11,6 +13,7 @@ import { ChatMessage } from '../models/chatMessage.model';
 })
 export class CollaborationService {
   private apiUrl = 'http://localhost:8300/timeforge/groupchat'; // Base URL for collaborations
+  private notifUrl = 'http://localhost:8300/timeforge/notifications'; // Base URL for collaborations
 
   constructor(private http: HttpClient) {}
 
@@ -27,6 +30,7 @@ export class CollaborationService {
   getCollaborationsByUser(userId: string): Observable<Collaboration[]> {
     return this.http.get<Collaboration[]>(`${this.apiUrl}/GroupChatsByUserId/${userId}`);
   }
+
 
   // Search collaborations by chat title
   findByChatTitle(chatTitle: string): Observable<Collaboration[]> {
@@ -78,5 +82,15 @@ export class CollaborationService {
   // Delete a collaboration
   deleteCollaboration(collaborationId: string | undefined): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/deleteGroupChat/${collaborationId}`);
+  }
+
+  
+
+  getNotificationsByUser(userId: string): Observable<NotificationModel[]> {
+    return this.http.get<NotificationModel[]>(`${this.notifUrl}/user/${userId}`);
+  }
+
+  privateMessage(collab: PrivateMessage): Observable<string> {
+    return this.http.post(`${this.apiUrl}/createPrivateChat`, collab, { responseType: 'text' });
   }
 }

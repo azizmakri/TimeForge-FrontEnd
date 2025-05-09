@@ -6,44 +6,64 @@
   
   </div>
   <!-- FORM -->
-  <div class="card shadow-sm rounded-4 mb-5">
-    <div class="card-header bg-secondary text-white">
-      <h5 class="m-0">Create New Collaboration</h5>
-    </div>
-    <div class="card-body">
-      <form [formGroup]="myForm" (ngSubmit)="addCollab()">
-        <div class="mb-3">
-          <label for="title" class="form-label">Chat Title</label>
-          <input
-            type="text"
-            id="title"
-            class="form-control"
-            formControlName="title"
-            required
-          />
-        </div>
-        <div class="mb-3">
-          <mat-form-field appearance="fill" class="w-100">
-            <mat-label>Membres</mat-label>
-            <mat-select
-              formControlName="userIds"
-              multiple
-            >
-              <mat-option
-                *ngFor="let membre of membres$ | async"
-                [value]="membre.id"
+  <div class="mb-3 d-flex align-items-end gap-2">
+    <div class="card shadow-sm rounded-4 mb-5" style="width: 50%;">
+      <div class="card-header bg-secondary text-white">
+        <h5 class="m-0">New Collaboration</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="myForm" (ngSubmit)="addCollab()">
+          <div class="mb-3">
+            <label for="title" class="form-label">Chat Title</label>
+            <input
+              type="text"
+              id="title"
+              class="form-control"
+              formControlName="title"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Membres</mat-label>
+              <mat-select
+                formControlName="userIds"
+                multiple
               >
-                {{ membre.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <button type="submit" class="btn btn-primary w-100 rounded-pill">
-          <i class="bi bi-plus-circle me-1"></i> Create Collaboration
-        </button>
-      </form>
+                <mat-option
+                  *ngFor="let membre of membres$ | async"
+                  [value]="membre.id"
+                >
+                  {{ membre.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <button type="submit" class="btn btn-primary w-100 rounded-pill">
+            <i class="bi bi-plus-circle me-1"></i> Create Collaboration
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="card shadow-sm rounded-4 mb-5" style="width: 50%;height: 20rem;overflow: auto;">
+      <div class="card-header bg-secondary text-white">
+        <h5 class="m-0">New private chat</h5>
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush" *ngIf="(membres$ | async)?.length > 0; else noCollab">
+          <div class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let member of membres$ | async">
+            <div class="ms-2 me-auto">
+              <div class="fw-bold"><h5 (click)="getCollabById(member.id!)">{{ member.name }}</h5></div>
+            </div>
+            <button (click)="addPrivateMEssage(member.id)" class="btn btn-success ">
+              <i class="bi bi-chat"></i>
+            </button>
+          </div>
+        </ul>
+      </div>
     </div>
   </div>
+  
 
   <!-- LIST OF COLLABORATIONS -->
   <div class="card shadow-sm rounded-4">
@@ -52,11 +72,11 @@
     </div>
     <div class="card-body">
       <ul class="list-group list-group-flush" *ngIf="(collaborations$ | async)?.length > 0; else noCollab">
-        <div class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let collab of collaborations$ | async">
+        <div class="mb-3 d-flex align-items-end gap-2" *ngFor="let collab of collaborations$ | async">
           <div class="ms-2 me-auto">
-            <div class="fw-bold"><h5 (click)="getCollabById(collab.id!)" style="  cursor: pointer;">{{ collab.title }}</h5></div>
+            <div class="fw-bold"><h5 (click)="getCollabById(collab.id!)" style="  cursor: pointer;">{{ collab.title }} <span style="color: lightgrey;font-size: medium;">({{ collab.chatType }})</span> </h5></div>
           </div>
-          <button (click)="deleteCollaboration(collab.id)" class="btn btn-outline-danger btn-sm rounded-pill">
+          <button (click)="deleteCollaboration(collab.id)" class="btn btn-outline-danger btn-sm rounded-pill" style="background-color: #ff5a5a;">
             <i class="bi bi-trash3-fill"></i>
           </button>
         </div>
